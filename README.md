@@ -1,1 +1,7 @@
 # Go APIにauth0のJWT認証を実装する
+
+main.goでは、ミドルウェアの呼び出しを定義し、default_roleを付与しているものは、helloハンドラーを呼び出せるようにした。
+
+middleware/auth0.goでは、authorization tokenを検証し、ユーザーが制限されている権限を持っているかを確認している。
+
+auth_action_add_role.jsは、auth0のpost-loginフローでのaction処理を定義している。actionでは、ログイン時に持っている権限をcustomClaimsにセットするようにしている。
