@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-with, initial-scale=1.0">
+    <script src="https://unpkg.com/htmx.org@1.9.10"></script>
+    <title>Callback Page</title>
+</head>
+<body>
+    <h1>Token Information</h1>
+    <p>Access Token: <span id="accessToken">{{.AccessToken}}</span></p>
+    <p>Refresh Token: <span id="refreshToken">{{.RefreshToken}}</span></p>
+    <button id="saveTokenButton">Save Token</button>
+
+    <h2>default_role</h2>
+    <div id="htmx-response">
+        <button hx-get="/api/v1/hello" hx-target="#htmx-response">Try it out</button>
+    </div>
+
+</body>
+<script>
+    document.getElementById('saveTokenButton').addEventListener('click', function() {
+        const accessToken = document.getElementById('accessToken').innerText;
+        const refreshToekn = document.getElementById('refreshToken').innerText;
+
+        localStorage.setItem('accessToken', accessToken);
+        localStorage.setItem('refreshToken', refreshToekn);
+
+        alert('Token saved to LocalStorage.');
+    });
+
+    document.body.addEventListener('htmx:configRequest', function(evt) {
+        var token = localStorage.getItem('accessToken');
+        if (token) {
+            evt.detail.headers['Authorization'] = 'Bearer ' + token;
+        }
+    })
+</script>
+</html>
